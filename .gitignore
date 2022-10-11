@@ -1,2 +1,4 @@
 /container_tests
 /target
+
+aws-build/target/

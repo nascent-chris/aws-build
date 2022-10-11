@@ -467,7 +467,7 @@ impl Builder {
         // Create a symlink pointing to the output file. Either
         // "target/latest-al2" or "target/latest-lambda"
         let symlink_path =
-            target_dir.join(format!("latest-{}", self.mode.name()));
+            target_dir.join(format!("{}-latest-{}", bin, self.mode.name()));
         // Remove the symlink if it already exists, but ignore an
         // error in case it doesn't exist.
         let _ = fs::remove_file(&symlink_path);
