@@ -155,6 +155,7 @@ impl<'a> Drop for ResetPodmanPermissions<'a> {
 struct Container<'a> {
     mode: BuildMode,
     bin: &'a String,
+    features: Option<&'a Vec<String>>,
     launcher: &'a Launcher,
     output_dir: &'a Path,
     image_tag: &'a str,
@@ -209,6 +210,12 @@ impl<'a> Container<'a> {
                     Path::new("/target").join(mode_name).into(),
                 ),
                 ("BIN_TARGET".into(), self.bin.into()),
+                (
+                    "FEATURES".into(),
+                    self.features
+                        .map(|features| features.join(",").into())
+                        .unwrap_or_default(),
+                ),
             ],
             init: true,
             user: Some(UserAndGroup::current()),
@@ -332,6 +339,10 @@ pub struct Builder {
     /// only has one binary target.
     pub bin: Option<String>,
 
+    /// Features to enable.
+    /// If None, the default features are enabled.
+    pub features: Option<Vec<String>>,
+
     /// Strip the binary.
     pub strip: bool,
 
@@ -410,6 +421,7 @@ impl Builder {
             output_dir: &output_dir,
             image_tag: &image_tag,
             bin: &bin,
+            features: self.features.as_ref(),
             relabel: self.relabel,
             code_root: &code_root,
         };

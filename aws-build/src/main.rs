@@ -58,6 +58,10 @@ struct Opt {
     #[argh(option)]
     bin: Option<String>,
 
+    /// list of features to enable
+    #[argh(option)]
+    features: Vec<String>,
+
     /// yum devel package to install in build container
     #[argh(option)]
     package: Vec<String>,
@@ -100,6 +104,7 @@ fn main() {
         rust_version: opt.rust_version,
         mode: opt.mode,
         bin: opt.bin,
+        features: Some(opt.features),
         strip: opt.strip,
         launcher,
         code_root: opt.code_root.unwrap_or_else(|| opt.project.clone()),
