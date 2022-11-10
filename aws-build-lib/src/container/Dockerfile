@@ -4,6 +4,7 @@ ARG FROM_IMAGE
 FROM $FROM_IMAGE
 
 # This is already in the Lambda image but not in the AL2 image
+RUN yum update -y
 RUN yum install -y gcc unzip
 
 # Install Rust
