@@ -12,9 +12,9 @@ RUN yum install -y gcc unzip
 ARG RUST_VERSION
 RUN curl -o /rustup.sh --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs
 RUN CARGO_HOME=/cargo RUSTUP_HOME=/rustup sh /rustup.sh -y --profile minimal --default-toolchain $RUST_VERSION
-
+RUN . /cargo/env
 # run rustup update to ensure we have the latest version of rust
-RUN /cargo/bin/rustup update
+RUN CARGO_HOME=/cargo RUSTUP_HOME=/rustup /cargo/bin/rustup update
 
 RUN curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
 RUN unzip protoc-3.15.8-linux-x86_64.zip -d /protoc
